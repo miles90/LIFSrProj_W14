@@ -1,0 +1,136 @@
+use <../components/TBS_5x2.scad>
+include <../components/5v_stepper_motor.scad>
+include <../pinhole_stage/xy_axis.scad>
+
+outer_axis_static_rod_length = 250;
+outer_axis_drive_rod_length = 200; 
+slide_clearance_w = 0; //Slide width is 45mm
+slide_clearance_l = 15; //Slide length is 85mm
+static_rod_r = 9.53/2;
+inner_axis_drive_rod_length = 110;
+inner_axis_static_rod_length = 140;
+drive_rod_r = 2.5;
+
+oa_dr_rod_l = outer_axis_drive_rod_length;
+oa_st_rod_l = outer_axis_static_rod_length;
+ia_dr_rod_l = inner_axis_drive_rod_length;
+ia_st_rod_l = inner_axis_static_rod_length;
+
+translate([-65,-70,-25]) cube([85,45,20]);
+
+rotate([90,0,0]) two_axis_slide_stage();
+//translate([-30,-100,0]) cube([150,30,30],center=true);
+//translate([0,70,0]) cube([200,30,30],center=true);
+module two_axis_slide_stage() {
+	translate([0,-7,7]) rotate([-90,0,0]) inner_axis();
+	outer_axis();
+}
+
+module outer_axis() {
+	translate([mount_position+15,0,60]) rotate([-90,0,90])  stepper_motor();
+	translate([60,0,45]) coupler(coupler_dim, 2.5,2.5);
+	color("lightGrey") translate([-mount_position-80,0,95]) rotate([-180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, $fn=50);
+	color("darkGrey") translate([60,0,42]) rotate([180,0,0]) cylinder(h=oa_dr_rod_l, r=drive_rod_r, $fn=50);
+	translate([60,0,15]) rotate([0,0,90]) tbs_horz_axis();
+	rotate([-90,0,0]) outer_drive_mount();
+	translate([0,0,-60]) rotate([90,0,0]) outer_static_mount();
+}
+
+module outer_static_mount() {
+	difference() {
+		translate([-30,-90,0]) cube([250,50,30],center=true);
+		translate([-30,-60,0]) cube([120,60,35],center=true);
+		//rotate([90,0,0]) translate([-mount_position-80,0,15-10]) smooth_rod(oa_st_rod_l, static_rod_r);
+		rotate([90,0,0]) translate([mount_position+15,0,68]) bearing(2.5,bearing_od/2);
+		//rotate([90,0,0]) translate([-mount_position-80,0,-200]) cylinder(h=oa_st_rod_l, r=static_rod_r, $fn=50);
+		rotate([90,0,0]) translate([-mount_position-80,0,95]) rotate([-180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, $fn=50);
+	}
+	
+}
+
+module outer_drive_mount() {
+	difference() {
+		translate([-30,-90,0]) cube([250,50,30],center=true);
+		translate([-30,-60,0]) cube([120,60,35],center=true);
+		rotate([90,0,0]) translate([mount_position+15,0,60]) rotate([-90,0,90])  stepper_motor();
+		//rotate([90,0,0]) translate([-mount_position-80,0,15-10]) smooth_rod(oa_st_rod_l, static_rod_r);
+		rotate([90,0,0]) translate([-mount_position-80,0,95]) rotate([-180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, $fn=50);
+	}
+		//rotate([90,0,0]) translate([-mount_position-80,0,-200]) cylinder(h=oa_st_rod_l, r=static_rod_r, $fn=50);
+}
+
+module inner_axis() {
+	color("slateGrey") translate([40,0,7]) rotate([0,-90,0]) cylinder(h=ia_st_rod_l, r=static_rod_r,$fn=50);
+	color("slateGrey") translate([45,37.5,5]) rotate([0,-90,0]) cylinder(h=ia_dr_rod_l, r=2.5,$fn=50);
+	%translate([-10,37.5+slide_clearance_w,5]) rotate([0,90,0]) tbs();
+	translate([-20,0,0]) sample_arm();
+	%translate([-35,0,0]) inner_axis_drive_mount();
+	%inner_axis_static_mount();
+}
+
+module inner_axis_drive_mount() {
+	difference() {
+		union() {
+			translate([-55,slide_clearance_w,3.75]) inner_stepper_mount(30);
+			translate([-48.5,37.5+slide_clearance_w,5]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14,width=19);
+			translate([-30,37.5+slide_clearance_w,5]) rotate([0,90,0]) coupler(coupler_dim, 2.5,2.5);
+			translate([-15,15,7]) lin_bearing_case();
+		}
+		translate([40,0,7]) rotate([0,-90,0]) cylinder(h=105, r=static_rod_r,$fn=50);
+	}
+}
+
+module inner_axis_static_mount() {
+	translate([37.5,37.5,5]) rotate([0,90,0]) inner_axis_bearing_shaft(16,2);
+}
+
+module inner_axis_bearing_shaft() {
+	union() {
+		union() { //Mount
+			difference() {//Bearing Case 
+				translate([-25,-30.5,0]) cube([40,55+slide_clearance_w,15]);
+				translate([0,slide_clearance_w,0]) cylinder(h=20,r=8,center=true,$fn=100);
+			}
+			difference() {//Back Plate
+				translate([-27.5,-30.5,0]) cube([45,5,45]);
+				translate([-2.5,-25,22.5]) rotate([90,0,0]) cylinder(r=6,h=20,center=true,$fn=50);
+			}
+			translate([-26.25,-37.5,22.5]) cube([2.5,15.5,45],center=true);
+			translate([16.25,-37.5,22.5]) cube([2.5,15.5,45],center=true);
+		}
+	}
+	%translate([0,0,5]) bearing(2.5,bearing_od/2);
+}
+
+module inner_stepper_mount(height=27.5) {
+	union() {
+		difference() {//Motor Seat
+			difference() {
+				translate([-10,35,5]) cube([30,50,height],center=true);
+				translate([6.5,37.5,0]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14.5,width=34);
+				translate([-5,37.5,17.5]) cube([30,29,20],center=true);
+				translate([-10,23,12.55]) cube([20,10,15],center=true);
+				translate([-10,52,12.55]) cube([20,10,15],center=true);
+				translate([5,21,8]) rotate([0,90,0]) cylinder(h=11,r=2,center=true,$fn=100);
+				translate([5,54,8]) rotate([0,90,0]) cylinder(h=11,r=2,center=true,$fn=100);
+			}
+		}
+		translate([-5,0,5]) cube([40,30,height],center=true);
+	}
+}
+
+module lin_bearing_case(){
+	difference() {
+		translate([-65,-10,1.75]) cube([60,16.3,30],center=true);
+		translate([-75,-10,0]) rotate([90,0,0]) cylinder(h=30,r=7.94,center=true,$fn=50);
+	}
+}
+
+module sample_arm() {
+	difference() {
+		translate([2.5,0,2]) cube([16.3,30,45],center=true);
+		translate([0,0,7]) rotate([0,90,0]) cylinder(h=30,r=7.94,center=true,$fn=true);
+	}
+	translate([2.5,25,23.25]) cube([16.3,70,2.5],center=true);
+	translate([2.5,25,-19.25]) cube([16.3,70,2.5],center=true);
+}
