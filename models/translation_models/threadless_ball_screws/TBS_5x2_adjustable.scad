@@ -61,7 +61,7 @@ Bearing_Nut_Size = 9; 			// Nut Size: [9:M5, 8:M4,6.3:M3]
 /* [Adjustable Screw Options] */
 screw_diameter = 5;
 screw_nut_size = 10.5;	
-flex_cut_width = 2.5;
+flex_cut_width = 1.5;
 
 
 
