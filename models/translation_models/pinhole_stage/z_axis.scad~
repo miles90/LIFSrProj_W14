@@ -1,7 +1,7 @@
-use <TBS_5x2.scad>
-use <5v_stepper_motor.scad>
-use <coupler.scad>
-use <bearing.scad>
+use <../components/TBS_5x2.scad>
+use <../components/5v_stepper_motor.scad>
+use <../components/coupler.scad>
+use <../components/bearing.scad>
 
 //Variables
 thr_rod_length = 80;

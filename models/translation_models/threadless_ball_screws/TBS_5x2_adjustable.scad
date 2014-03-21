@@ -284,20 +284,24 @@ module cutBase(){
 }
 
 // Part assembly starts here
-difference(){
-	Base();
-	bearingMounts();
-	//translate([0,0,-2*bh]) rotate([180,0,0]) bearingMounts();;
-	screwMounts();
-	flex_cuts();
+tbs_adj();
+module tbs_adj() {
+	difference(){
+		Base();
+		bearingMounts();
+		//translate([0,0,-2*bh]) rotate([180,0,0]) bearingMounts();;
+		screwMounts();
+		flex_cuts();
+	}
 }
 
 module screwMounts() {
 	color("lightBlue") translate([0,-Box_Y_Width/2+5,-bh/2+3]) rotate([0,90,0]) cylinder(h=Box_X_Width+20,r=screw_diameter/2,center=true,$fn=50);
 	color("cyan") translate([8,-Box_Y_Width/2+5,-bh/2+3]) rotate([0,90,0]) cube([screw_nut_size,screw_nut_size,5],center=true);
 	color("cyan") translate([16,-Box_Y_Width/2+5,-bh/2+3]) rotate([0,90,0]) cube([screw_nut_size,screw_nut_size,5],center=true);
-	color("lightBlue") translate([15,Box_Y_Width/2-5,-bh/2+3]) rotate([0,90,0]) cylinder(h=20,r=screw_diameter/2,center=true,$fn=50);
+	color("lightBlue") translate([0,Box_Y_Width/2-5,-bh/2+3]) rotate([0,90,0]) cylinder(h=20+Box_X_Width,r=screw_diameter/2,center=true,$fn=50);
 	color("cyan") translate([16,Box_Y_Width/2-5,-bh/2+3]) rotate([0,90,0]) cube([screw_nut_size,screw_nut_size,5],center=true);
+	color("cyan") translate([8,Box_Y_Width/2-5,-bh/2+3]) rotate([0,90,0]) cube([screw_nut_size,screw_nut_size,5],center=true);
 }
 
 module flex_cuts(){
