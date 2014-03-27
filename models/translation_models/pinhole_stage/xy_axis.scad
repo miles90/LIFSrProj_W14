@@ -24,17 +24,17 @@ module tbs_mount_z_axis() {
 			translate([-30,-12.5,20])cube([7,25,5]);
 			translate([23,-12.5,20])cube([7,25,5]);
 		}
-		translate([17,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
-		translate([-17,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
+		translate([17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
+		translate([-17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
 	}
 }
 
 module XY_AXIS_TRANS_STAGE() {
 	vert_stage();
-	color("grey") translate([0,0,97]) rotate([0,90,0]) smooth_rod(horz_rod_length, rod_radius);
-	translate([0,0,130]) pinhole();
-	translate([-55,0,95]) horz_stage();
-	translate([10,37.5,95]) rotate([0,90,0]) tbs_pinhole_axis();
+	//color("grey") translate([0,0,97]) rotate([0,90,0]) smooth_rod(horz_rod_length, rod_radius);
+	//translate([0,0,130]) pinhole();
+	//translate([-55,0,95]) horz_stage();
+	//translate([10,37.5,95]) rotate([0,90,0]) tbs_pinhole_axis();
 	translate([37.5,37.5,95]) rotate([0,90,0]) horz_drive_shaft_bearing(16,2);
 	translate([-48.5,37.5,95]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14,width=19);
 	translate([-30,37.5,95]) rotate([0,90,0]) coupler(coupler_dim, 2.5,2.5);
@@ -50,7 +50,7 @@ module vert_stage(){
 	union() {
 		tbs_mount_z_axis();
 		translate([60,0,105]) rotate([0,0,90]) tbs_horz_axis();
-		frame();
+		//frame();
 	}
 }
 
@@ -87,14 +87,12 @@ module frame() {
 
 	//private modules
 	module tbs_side_support() {
-		union() {
-			difference() {
-				translate([-65.5,0,-15]) cube([85, 45, 15],center=true);
-				translate([-rod_spacing,0,0]) cylinder(100,lin_bearing_od/2,center=true,$fn=100);
-			}
-			translate([-mount_position-2.5,0,-7.5]) cube([50,45,30],center=true);
-			translate([-110,0,-10]) cube([30,45,60],center=true);
+		difference() {
+			translate([-65.5,0,-15]) cube([85, 45, 15],center=true);
+			translate([-rod_spacing,0,0]) cylinder(h=100,r=lin_bearing_od/2,center=true,$fn=100);
 		}
+		//translate([-mount_position-2.5,0,-7.5]) cube([50,45,30],center=true);
+		translate([-110,0,-10]) cube([30,45,60],center=true);
 	}
 }
 
@@ -105,7 +103,7 @@ module pinhole() {
 	}
 }
 
-module horz_stage(lin_bearing_od=16,height=27.5) {
+module horz_stage(height=27.5) {
 	lin_bearing_or = lin_bearing_od/2;
 	union() {
 		difference() {//Motor Seat
@@ -129,7 +127,7 @@ module horz_stage(lin_bearing_od=16,height=27.5) {
 	}
 }
 
-module tbs_pinhole_axis(lin_bearing_od=16) {
+module tbs_pinhole_axis() {
 	lin_bearing_or=lin_bearing_od/2;
 	union() {
 		tbs();

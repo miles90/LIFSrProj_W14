@@ -2,11 +2,11 @@
 include <../components/5v_stepper_motor.scad>
 include <../pinhole_stage/xy_axis.scad>
 
-outer_axis_static_rod_length = 200;
-outer_axis_drive_rod_length = 110; 
 slide_clearance_w = 0; //Slide width is 45mm
 slide_clearance_l = 15; //Slide length is 85mm
 static_rod_r = 9.53/2;
+outer_axis_static_rod_length = 200;
+outer_axis_drive_rod_length = 110; 
 inner_axis_drive_rod_length = 110;
 inner_axis_static_rod_length = 140;
 drive_rod_r = 2.5;
@@ -19,6 +19,7 @@ slide_length=95;
 screw_diameter=5;
 screw_rad=screw_diameter/2;
 screw_nut_size=15;
+lin_bearing_or = 8.1;
 
 //color("cyan") translate([-60,-75,-23]) cube([85,45,10]);
 
@@ -201,23 +202,24 @@ module inner_stepper_mount(height=27.5) {
 module lin_bearing_case(){
 	difference() {
 		translate([-65,-10,1.75]) cube([60,16.3,30],center=true);
-		translate([-75,-10,0]) rotate([90,0,0]) cylinder(h=30,r=7.94,center=true,$fn=50);
+		translate([-75,-10,0]) rotate([90,0,0]) cylinder(h=30,r=lin_bearing_or,center=true,$fn=50);
 	}
 }
 
 module sample_lin_bearing() {
+	case_width = 16.1;
 	difference() {
 		union() {
 			/* lin bearing casing */
 			difference() {
-				translate([2.5,-4.5,2]) cube([16.3,36.5,45],center=true);
-				translate([0,0,7]) rotate([0,90,0]) cylinder(h=30,r=7.94,center=true,$fn=true);//lin bear hole
+				translate([2.5,-4.5,2]) cube([case_width,36.5,45],center=true);
+				translate([0,0,7]) rotate([0,90,0]) cylinder(h=30,r=lin_bearing_or,center=true,$fn=true);//lin bear hole
 				translate([2,-12.5,20]) cube([screw_nut_size+10,4,screw_nut_size],center=true);//nut hole
 				translate([2,-12.5,-10]) cube([screw_nut_size+10,4,screw_nut_size],center=true);//nut hole
 			}
 			/* TBS Mounting arms */
-			translate([2.5,25,23.25]) cube([16.3,70,2.51],center=true);
-			translate([2.5,25,-19.25]) cube([16.3,70,2.5],center=true);
+			translate([2.5,25,23.25]) cube([case_width,70,2.51],center=true);
+			translate([2.5,25,-19.25]) cube([case_width,70,2.5],center=true);
 		}
 		/* screw holes to TBS */
 		translate([5.5,55,0]) cylinder(h=70,r=screw_rad,center=true,$fn=50);	
