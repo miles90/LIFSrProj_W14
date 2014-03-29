@@ -173,7 +173,8 @@ void setup()
 
   tecPID.SetMode(AUTOMATIC);
   tecPID.SetOutputLimits(-100, 100);
-  lastTime = millis();
+  tecPID.SetSampleTime(1);
+  lastTime = micros();
 }
 void loop()
 {
@@ -181,17 +182,14 @@ void loop()
   {
     interpretcommand(line);
   }
-  double tmp = analogRead(tempPIN);
-  Input = lowpassfilt(x, y, gettemp(tmp));//gettemp(tmp);
-  tecPID.SetTunings(consKp, consKi, consKd);
-  tecPID.Compute();
-  writeoutput();
-  printinfo();
-  if (Ts == 0)
-  {
-    Ts = 20; //millis() - lastTime;
-    //lastTime = millis();
-    tecPID.SetSampleTime(Ts);
+  if(lastTime-micros() > 1000){
+    lastTime = micros();
+    double tmp = analogRead(tempPIN);
+    Input = gettemp(tmp);
+    tecPID.SetTunings(consKp, consKi, consKd);
+    tecPID.Compute();
+    writeoutput();
+    printinfo();
   }
   if (Input >= 35 + C0)
   {
