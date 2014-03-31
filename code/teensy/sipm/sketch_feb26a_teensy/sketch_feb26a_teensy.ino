@@ -15,6 +15,7 @@
 #define R2 2.13
 #define R0 2.20
 #define C0 273.15
+#define NumAverageSamples 32
 
 char line[50];
 double x[17], y[17];
@@ -158,7 +159,7 @@ void end()
 void setup()
 {
   analogReadResolution(16);
-  analogWriteResolution(16);
+  analogReadAveraging(NumAverageSamples);
   pinMode(encPIN, OUTPUT);
   pinMode(minPIN, OUTPUT);
   pinMode(plusPIN, OUTPUT);
