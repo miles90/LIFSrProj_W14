@@ -1,0 +1,101 @@
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Sun 30 Mar 2014 06:11:04 PM MDT
+
+BeginCmp
+TimeStamp = /5338B550;
+Reference = D1;
+ValeurCmp = DIODE;
+IdModule  = D3;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338B55D;
+Reference = D2;
+ValeurCmp = DIODE;
+IdModule  = D3;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338B563;
+Reference = D3;
+ValeurCmp = DIODE;
+IdModule  = D3;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338B569;
+Reference = D4;
+ValeurCmp = DIODE;
+IdModule  = D3;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338AC37;
+Reference = IC1;
+ValeurCmp = LF347D;
+IdModule  = DIP-14__300_ELL;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338ACA5;
+Reference = IC2;
+ValeurCmp = L298;
+IdModule  = MULTIWATT-15;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338BC5F;
+Reference = P1;
+ValeurCmp = CONN_5;
+IdModule  = SIL-5;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338C083;
+Reference = P2;
+ValeurCmp = CONN_5;
+IdModule  = SIL-5;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338AC1F;
+Reference = P3;
+ValeurCmp = CONN_14;
+IdModule  = SIL-14;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338AC2C;
+Reference = P4;
+ValeurCmp = CONN_14;
+IdModule  = SIL-14;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338B571;
+Reference = P5;
+ValeurCmp = CONN_1;
+IdModule  = SIL-1;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338B204;
+Reference = R1;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338B42B;
+Reference = SMA_E1;
+ValeurCmp = SMA_EDGE;
+IdModule  = SMA_EDGE;
+EndCmp
+
+BeginCmp
+TimeStamp = /5338AC10;
+Reference = U1;
+ValeurCmp = TEENSY3;
+IdModule  = Teensy-3;
+EndCmp
+
+EndListe
