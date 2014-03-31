@@ -232,20 +232,23 @@ module sample_lin_bearing() {
 module sample_arm() {
 	/* slide back */
 	difference() {
-		translate([2.5,-23,2]) cube([slide_length,12,45],center=true);
+		translate([2.5,-23,4.5]) cube([slide_length-8,12,40],center=true);
 		translate([2.5,-30,-10.5]) cube([slide_length+10,15,10],center=true);
 		translate([2,-20,20]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);
 		translate([2,-20,-10]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);
 		translate([2,-22,-10]) rotate([90,0,0]) cylinder(h=4,r=screw_rad+2,center=true,$fn=50);
 	}
 	/* slide bottom */
-	difference() {
-		translate([2.5,-50,-18]) cube([slide_length,45,5.1],center=true);
-		translate([2.5,-40,-18]) cube([slide_length/1.7,25,10],center=true);
-	}
+//	difference() {
+//		translate([2.5,-50,-18]) cube([slide_length,45,5.1],center=true);
+//		translate([2.5,-40,-18]) cube([slide_length/1.7,25,10],center=true);
+//	}
 	/* slide border */
-	translate([-45,-72.5,-15.5]) cube([5,55,10]);
-	translate([-30,-72.5,-15.5]) rotate([0,0,90]) cube([5,10.1,10]);
-	translate([45,-72.5,-15.5]) cube([5,55,11]);
-	translate([45,-72.5,-15.5]) rotate([0,0,90]) cube([5,10,10]);
+//	translate([-45,-72.5,-15.5]) cube([5,55,10]);
+//	translate([-30,-72.5,-15.5]) rotate([0,0,90]) cube([5,10.1,10]);
+//	translate([45,-72.5,-15.5]) cube([5,55,11]);
+//	translate([45,-72.5,-15.5]) rotate([0,0,90]) cube([5,10,10]);
+  /* fattening edges */
+  translate([-41,-29,-15.5]) cube ([38,12,10]);
+  translate([8,-29,-15.5]) cube ([38,12,10]);
 }
