@@ -4,7 +4,7 @@ vert_drive_rod_length = 105;
 vert_static_rod_length = 115;
 horz_rod_length = 80;
 static_rod_radius = 9.54/2;
-static_vert_rod_loc = 40;
+static_vert_rod_loc = 0;
 
 /*
 difference() {
@@ -21,10 +21,8 @@ XY_AXIS_TRANS_STAGE();
 module tbs_mount_z_axis() {
 	difference() {
 		union() {
-			translate([-22.5,-12.5,-22.5]) cube([45,25,5]);
+			translate([-30,-12.5,-22.5]) cube([60,20,5]);
 			translate([-30,-12.5,23.5]) cube([60,25,5]);
-			translate([-30,-12.5,20])cube([7,25,5]);
-			translate([23,-12.5,20])cube([7,25,5]);
 		}
 		translate([17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
 		translate([-17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
@@ -35,22 +33,22 @@ module XY_AXIS_TRANS_STAGE() {
 	vert_stage();
 	//color("grey") translate([0,0,97]) rotate([0,90,0]) smooth_rod(horz_rod_length, rod_radius);
 	//translate([0,0,130]) pinhole();
-	translate([-40,0,75]) horz_stage();
-	translate([10,37.5,75]) rotate([0,90,0]) tbs_pinhole_axis();
-	translate([10,37.5,75]) rotate([0,90,0]) tbs_adj();
-	translate([17.5,37.5,75]) rotate([0,90,0]) horz_drive_shaft_bearing(16,2);
-	translate([-33.5,37.5,75]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14,width=19);
-	translate([-17,37.5,75]) rotate([0,90,0]) coupler(coupler_dim, 2.5,2.5);
+	//translate([-40,0,75]) horz_stage();
+	//translate([10,37.5,75]) rotate([0,90,0]) tbs_pinhole_axis();
+	//translate([10,37.5,75]) rotate([0,90,0]) tbs_adj();
+	//translate([17.5,37.5,75]) rotate([0,90,0]) horz_drive_shaft_bearing(16,2);
+	//translate([-33.5,37.5,75]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14,width=19);
+	//translate([-17,37.5,75]) rotate([0,90,0]) coupler(coupler_dim, 2.5,2.5);
 }
 
 module vert_stage(){
-	color("grey") translate([40,0,140]) rotate([-90,0,-90])  stepper_motor();
+	color("grey") translate([-40,0,130]) rotate([-90,0,180])  stepper_motor();
 
 	//coupler and rods
-	%translate([40,0,125]) coupler(coupler_dim, 2.5,2.5);
-	color("grey") translate([-static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
-	color("grey") translate([40,0,70.5]) smooth_rod(vert_drive_rod_length, rod_radius);
-	translate([40,0,85]) rotate([0,0,90]) tbs_adj();
+	%translate([-40,0,115]) coupler(coupler_dim, 2.5,2.5);
+	color("grey") translate([static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
+	color("grey") translate([-40,0,70.5]) smooth_rod(vert_drive_rod_length, rod_radius);
+	translate([-40,0,85]) rotate([0,0,90]) tbs_adj();
 	union() {
 		tbs_mount_z_axis();
 		frame();
@@ -58,41 +56,42 @@ module vert_stage(){
 }
 
 module frame() {
-	top_pos = 130;
+	top_pos = 120;
 	union() {
 		difference() {//top frame
-			translate([0,0,top_pos]) cube([150,45,20],center=true);
-			translate([40,0,top_pos]) cylinder(r=10,h=25,center=true,$fn=100); //motor shaft hole
-			translate([-static_vert_rod_loc,0,100]) smooth_rod(220, static_rod_radius); //static shaft hole
+			translate([0,5,top_pos]) cube([150,35,20],center=true);
+			translate([-40,0,top_pos]) cylinder(r=10,h=25,center=true,$fn=100); //motor shaft hole
+			translate([static_vert_rod_loc,0,100]) smooth_rod(220, static_rod_radius); //static shaft hole
 			//screw holes
-			translate([32,22,top_pos-10]) cube([7,17,30],center=true);//screw hole +y side
-			translate([32,16.5,top_pos]) cylinder(r=2,h=25,center=true,$fn=100); 
-			translate([32,-22,top_pos-10]) cube([7,17,30],center=true);//screw hole -y side
-			translate([32,-16.5,top_pos]) cylinder(r=2,h=25,center=true,$fn=100); 
+			translate([-23.5,13,top_pos-10]) cube([7,20,30],center=true);//screw hole +y side
+			translate([-23.5,8,top_pos]) cylinder(r=2,h=25,center=true,$fn=100); 
+			translate([-56.5,13,top_pos-10]) cube([7,20,30],center=true);//screw hole +y side
+			translate([-56.5,8,top_pos]) cylinder(r=2,h=25,center=true,$fn=100); 
 		}
 		
 		//bottom frame
 		translate([0,10,0]) rotate([-90,0,0]) union() {
 			//-x mount
-			tbs_side_support();
+			rotate([0,0,180]) tbs_side_support();
 
 			//+x mount
 			difference() {
-				rotate([0,0,180]) tbs_side_support();
-				translate([40,-20,-10]) rotate([90,0,0]) cylinder(h=5.25,r=lin_bearing_od/2,center=true,$fn=100);
+				translate([0,0,-30]) rotate([180,0,0])tbs_side_support();
+				translate([-40,-20,-10]) rotate([90,0,0]) cylinder(h=5.25,r=lin_bearing_od/2,center=true,$fn=100);
 			}
-			%translate([40,-20,-10]) rotate([90,0,0]) bearing(2.5,8);
+			%translate([-40,-20,-10]) rotate([90,0,0]) bearing(2.5,8);
+			
 		}
 
 		//Side support beams
-		translate([75,-5,70]) cube([20,15,140],center=true);
-		translate([-75,-5,70]) cube([20,15,140],center=true);
+		translate([65,-12.5,0]) cube([15,15,top_pos+10]);
+		translate([-80,-12.5,0]) cube([15,15,top_pos+10]);
 	}
 
 	//private modules
 	module tbs_side_support() {
 		difference() {
-			translate([-35.5,0,-15]) cube([55, 45, 15],center=true);
+			translate([-45.5,10,-15]) cube([45, 65, 15],center=true);
 			translate([-rod_spacing,0,0]) cylinder(h=100,r=lin_bearing_od/2,center=true,$fn=100);
 		}
 		//translate([-mount_position-2.5,0,-7.5]) cube([50,45,30],center=true);
