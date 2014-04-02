@@ -1,0 +1,66 @@
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Tue 25 Mar 2014 05:55:45 PM MDT
+
+BeginCmp
+TimeStamp = /5331EF60;
+Reference = C1;
+ValeurCmp = C;
+IdModule  = SM0603_Capa;
+EndCmp
+
+BeginCmp
+TimeStamp = /5332165C;
+Reference = P1;
+ValeurCmp = CONN_6;
+IdModule  = SiPM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5332170D;
+Reference = P2;
+ValeurCmp = CONN_7;
+IdModule  = pin_array_4x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5331F023;
+Reference = R1;
+ValeurCmp = R;
+IdModule  = SM0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /5331EFAF;
+Reference = R2;
+ValeurCmp = R;
+IdModule  = SM0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /5331EDEE;
+Reference = R3;
+ValeurCmp = R;
+IdModule  = SM0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /5331EE6B;
+Reference = R4;
+ValeurCmp = RVAR;
+IdModule  = 3059Y;
+EndCmp
+
+BeginCmp
+TimeStamp = /5331EE10;
+Reference = SMA_E1;
+ValeurCmp = SMA_EDGE;
+IdModule  = SMA_EDGE;
+EndCmp
+
+BeginCmp
+TimeStamp = /5331EDA1;
+Reference = U1;
+ValeurCmp = LM358;
+IdModule  = DIP-8__300_ELL;
+EndCmp
+
+EndListe

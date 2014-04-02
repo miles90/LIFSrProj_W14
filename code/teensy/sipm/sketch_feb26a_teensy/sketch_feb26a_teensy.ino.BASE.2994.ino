@@ -2,12 +2,11 @@
 #include "math.h"
 
 
-#define encPIN 12
+#define encPIN 10
 #define plusPIN 11
-#define minPIN 10
-#define tempPIN 3 // temperature reading
-#define crntPIN 2 // current, in Amperes
-#define SiPMpin 0 // SiPM power reading pin
+#define minPIN 12
+#define tempPIN 1 // temperature reading
+#define crntPIN 0 // current, in Amperes
 #define VMAX12 4095
 #define VMAX16 65536
 #define VRF 3.3
@@ -16,16 +15,10 @@
 #define R2 2.13
 #define R0 2.20
 #define C0 273.15
-<<<<<<< HEAD
-#define NumSamplesAverage 64
-=======
-#define NumAverageSamples 32
->>>>>>> 5bb912ab735743e26066b5708cccdcc405dc7276
 
 char line[50];
 double x[17], y[17];
 double consKp, consKd, consKi, Input, Output, Setpoint, ratio, alpha, Ts;
-unsigned int sipmreading;
 int lastTime;
 PID tecPID(&Input, &Output, &Setpoint, consKp, consKi, consKd, REVERSE);
 
@@ -40,6 +33,18 @@ void interpretcommand(char *line);
 void setup();
 void loop();
 
+double lowpassfilt(double *x, double *y, double temp)
+{
+  for (int i = 16; i <= 0; i--)
+  {
+    x[i] = x[i - 1];
+    y[i] = y[i - 1];
+  }
+
+  x[0] = temp;
+  y[0] = x[0] + x[1];//(y[2] + 2 * y[4] + y[8] + y[16])*alpha;
+  return y[0];
+}
 double gettemp(double vratio)
 {
   return 1 
@@ -64,7 +69,6 @@ double calc_voltage(int level)
 void printinfo()
 {
   int current = analogRead(crntPIN);
-  //Serial.print("pid,");
   Serial.print(Input - C0);
   Serial.print(",");
   Serial.print(Setpoint - C0);
@@ -72,8 +76,6 @@ void printinfo()
   Serial.print(Output);
   Serial.print(",");
   Serial.print(calc_voltage(current));
-  Serial.print(",");
-  Serial.print(sipmreading);
   Serial.print(",");
   Serial.print(consKp);
   Serial.print(",");
@@ -156,20 +158,15 @@ void end()
 void setup()
 {
   analogReadResolution(16);
-<<<<<<< HEAD
   analogWriteResolution(16);
-  analogReadAveraging(NumSamplesAverage);
-=======
-  analogReadAveraging(NumAverageSamples);
->>>>>>> 5bb912ab735743e26066b5708cccdcc405dc7276
   pinMode(encPIN, OUTPUT);
   pinMode(minPIN, OUTPUT);
   pinMode(plusPIN, OUTPUT);
   consKp = 10; 
-  consKi = 1;//.01;
-  consKd = .010;//.001; 
+  consKi = 10;//.01;
+  consKd = .10;//.001; 
   alpha = 2;
-  Setpoint = -15 + C0; // degrees C
+  Setpoint = 22 + C0; // degrees C
   Ts = 0;
   double tmp = analogRead(tempPIN);
   Input = gettemp(tmp);//lowpassfilt(x, y, gettemp(tmp));
@@ -185,9 +182,8 @@ void loop()
   {
     interpretcommand(line);
   }
-  if(lastTime-micros() > 1000000){
+  if(lastTime-micros() > 1000){
     lastTime = micros();
-    sipmreading = analogRead(SiPMpin);
     double tmp = analogRead(tempPIN);
     Input = gettemp(tmp);
     tecPID.SetTunings(consKp, consKi, consKd);
@@ -200,5 +196,4 @@ void loop()
     end();
   }
 }
-
 

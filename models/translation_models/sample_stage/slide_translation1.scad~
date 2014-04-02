@@ -55,11 +55,11 @@ module outer_static_mount_br() { //bearing side
 		// Frame Mounting Holes 1
 		translate([-25+25,-115+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
 		translate([-25+25,-115+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([-25+25,-115+14.75,5]) cube([5.25,100,2.5],center=true);
+		translate([-25+25,-115+14.75,-5]) cube([5.25,100,2.5],center=true);
 		// Frame Mounting Holes 2
 		translate([15+25,-115+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
 		translate([15+25,-115+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([15+25,-115+14.75,5]) cube([5.25,100,2.5],center=true);
+		translate([15+25,-115+14.75,-5]) cube([5.25,100,2.5],center=true);
 	}
 	difference() { // Mounting holes for static rod side
 		translate([-26.25,-102.5,0]) cube([7.5,25,60],center=true);
@@ -80,11 +80,11 @@ module outer_static_mount_st() { //static rod side
 		// Frame Mounting Holes 1
 		translate([-45-60,-115+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
 		translate([-45-60,-115+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([-45-60,-115+14.75,5]) cube([5.25,100,2.5],center=true);
+		translate([-45-60,-115+14.75,-5]) cube([5.25,100,2.5],center=true);
 		// Frame Mounting Holes 2
 		translate([10-60,-115+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
 		translate([10-60,-115+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([10-60,-115+14.75,5]) cube([5.25,100,2.5],center=true);
+		translate([10-60,-115+14.75,-5]) cube([5.25,100,2.5],center=true);
 	}
 	difference() { // Mounting holes for bearing side
 		translate([-33.75,-102.5,0]) cube([7.5,25,60],center=true);
@@ -162,8 +162,8 @@ module outer_drive_mount_st() { //static rod side
 module inner_axis() {
 	color("slateGrey") translate([40,0,7]) rotate([0,-90,0]) cylinder(h=ia_st_rod_l, r=static_rod_r,$fn=50);
 	color("slateGrey") translate([45,37.5,5]) rotate([0,-90,0]) cylinder(h=ia_dr_rod_l, r=2.5,$fn=50);
-	translate([-10,37.5+slide_clearance_w,5]) rotate([0,90,0]) tbs_adj();
-	translate([-25,-6,0]) sample_lin_bearing();
+	translate([-30,37.5+slide_clearance_w,5]) rotate([180,90,0]) tbs_adj();
+	translate([-25,0,0]) sample_lin_bearing();
 	translate([-25,-13,0]) sample_arm();
 	translate([-35,0,0]) inner_axis_drive_mount();
 	translate([-83.5,37.5+slide_clearance_w,5]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14,width=19);
@@ -240,7 +240,7 @@ module lin_bearing_case(){
 }
 
 module sample_lin_bearing() {
-	case_width = 16.1;
+	case_width = 14.9;
 	difference() {
 		union() {
 			/* lin bearing casing */
@@ -255,10 +255,10 @@ module sample_lin_bearing() {
 			translate([2.5,25,-19.25]) cube([case_width,70,2.5],center=true);
 		}
 		/* screw holes to TBS */
-		translate([5.5,55,0]) cylinder(h=70,r=screw_rad,center=true,$fn=50);	
-		translate([5.5,20,0]) cylinder(h=70,r=screw_rad,center=true,$fn=50);	
-		translate([2,-15,20]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);//screw hole
-		translate([2,-15,-10]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);//screw hole
+		translate([-.5,55,0]) cylinder(h=70,r=screw_rad+.25,center=true,$fn=50);//screw hole for tbs	
+		translate([-.5,20,0]) cylinder(h=70,r=screw_rad+.25,center=true,$fn=50);//screw hole for tbs
+		translate([2,-15,20]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);//screw hole for slide arm
+		translate([2,-15,-10]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);//screw hole for slide arm
 	}
 }
 

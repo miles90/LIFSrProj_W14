@@ -37,7 +37,7 @@ module outer_axis() {
 	color("lightGrey") translate([-mount_position-80,0,15-10]) smooth_rod(oa_st_rod_l, static_rod_r);
 	color("darkGrey") translate([60,0,42]) rotate([180,0,0]) cylinder(h=oa_dr_rod_l, r=drive_rod_r, $fn=50);
 	%translate([60,0,15]) rotate([0,0,90]) tbs_adj();
-	rotate([-90,0,0]) outer_drive_mount();
+	rotate([-90,0,0]) outer_mount_A();
 	rotate([90,0,0]) outer_static_mount();
 }
 
@@ -94,43 +94,12 @@ module outer_static_mount_st() { //static rod side
 	
 }
 
-module outer_drive_mount() {
-	outer_drive_mount_mt();
-	translate([0,0,0]) outer_drive_mount_st();
+module outer_mount_A() {
+	translate([0,0,0]) outer_mount_A2();
+	translate([-80,0,0]) mirror([1,0,0]) outer_mount_A2();
 }
 	
-module outer_drive_mount_mt() { //motor side
-	difference() {
-		union() {
-			translate([62.5,-97.5,0]) cube([65,65,50],center=true);
-			difference() {
-				translate([-40+62.5,-105,0]) cube([125,50,30],center=true);
-				translate([-30,-65,0]) cube([120,70,35],center=true);
-			}
-		}
-		translate([80,-75,0]) cube([65,21,28],center=true);
-		// Motor mounting holes
-		translate([68,-75,16.5]) rotate([90,0,0]) cylinder(h=30,r=2,center=true,$fn=50);//screw hole
-		translate([68,-70,16.5]) cube([8,3,20],center=true);//nut hole
-		translate([68,-75,-16.5]) rotate([90,0,0]) cylinder(h=40,r=2,center=true,$fn=50);//screw hole
-		translate([68,-70,-16.5]) cube([8,3,20],center=true);//nut hole
-		// Frame Mounting Holes 1
-		translate([-15,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([-15,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([-15,-130+14.75,5]) cube([5.25,100,2.5],center=true);
-		// Frame Mounting Holes 2
-		translate([10,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([10,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-		translate([10,-130+14.75,5]) cube([5.25,100,2.5],center=true);
-	}
-	difference() { //Mounting holes for static rod side
-		translate([-36.25,-115,0]) cube([7.5,30,60],center=true);
-		translate([-32.5,-115,22.5]) rotate([0,90,0]) cylinder(h=50,r=3,center=true,$fn=50);
-		translate([-32.5,-115,-22.5]) rotate([0,90,0]) cylinder(h=50,r=3,center=true,$fn=50);
-	}
-}
-
-module outer_drive_mount_st() { //static rod side
+module outer_mount_A2() { //static rod side
 	difference() {
 		union() {
 			difference() {
