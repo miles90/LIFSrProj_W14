@@ -6,10 +6,10 @@ Serial myPort;
 PFont myFont;
 PGraphics pg, txt;
 int w, h, x, xbuff;
-int temp_1, trgt_1, outpt_1, crnt_1;
+int temp_1, trgt_1, outpt_1, crnt_1,sipm_1;
 String filename, date;
 double kp, ki, kd;
-int temp, trgt, outpt, crnt;
+int temp, trgt, outpt, crnt, sipm;
 String typing;
 
 void serialEvent(Serial myPort)
@@ -18,15 +18,17 @@ void serialEvent(Serial myPort)
   double Kp, Kd, Ki;
   if (inString != null)
   {
+
     inString = inString.trim();
     String[] inValue = split(inString, ",");
     temp = int(h*(1/2 - float(inValue[0])/100));
     trgt = inValue.length > 1 ? int(h*(1/2 - float(inValue[1])/100)) : trgt;
     outpt = inValue.length > 2 ? int(h*(1/2 - float(inValue[2])/200)) : outpt;
     crnt = inValue.length > 3 ? int(h*(1/2 - 1.5*float(inValue[3])/2)) : crnt;
-    kp = inValue.length > 4 ? float(inValue[4]) : kp;
-    ki = inValue.length > 5 ? float(inValue[5]) : ki;
-    kd = inValue.length > 6 ? float(inValue[6]) : kd;
+    sipm = inValue.length > 4 ? int(inValue[4]) : sipm;
+    kp = inValue.length > 5 ? float(inValue[5]) : kp;
+    ki = inValue.length > 6 ? float(inValue[6]) : ki;
+    kd = inValue.length > 7 ? float(inValue[7]) : kd;
     output.println(inString);
     if (temp_1 == 0) {
       temp_1 = temp;
@@ -41,8 +43,11 @@ void serialEvent(Serial myPort)
     pg.line(x, h/2 + outpt_1, x+1, h/2 +outpt);
     pg.stroke(100, 100, 50);
     pg.line(x, h/2 + crnt_1, x+1, h/2 + crnt);
+    pg.stroke(150, 100, 50);
+    pg.line(x, -h*sipm_1/65536, x+1, -h*sipm/65536);
     pg.endDraw();
     image(pg, 0, 0);
+    sipm_1 = sipm;
     temp_1 = temp;
     trgt_1 = trgt;
     outpt_1 = outpt;

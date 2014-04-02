@@ -16,11 +16,7 @@
 #define R2 2.13
 #define R0 2.20
 #define C0 273.15
-<<<<<<< HEAD
 #define NumSamplesAverage 64
-=======
-#define NumAverageSamples 32
->>>>>>> 5bb912ab735743e26066b5708cccdcc405dc7276
 
 char line[50];
 double x[17], y[17];
@@ -156,12 +152,8 @@ void end()
 void setup()
 {
   analogReadResolution(16);
-<<<<<<< HEAD
   analogWriteResolution(16);
   analogReadAveraging(NumSamplesAverage);
-=======
-  analogReadAveraging(NumAverageSamples);
->>>>>>> 5bb912ab735743e26066b5708cccdcc405dc7276
   pinMode(encPIN, OUTPUT);
   pinMode(minPIN, OUTPUT);
   pinMode(plusPIN, OUTPUT);

@@ -38,6 +38,7 @@ LIBS:linear2
 LIBS:teensy3-dl
 LIBS:sma_edge
 LIBS:l298
+LIBS:teensy-sipm-cache
 EELAYER 27 0
 EELAYER END
 $Descr A4 11693 8268
@@ -185,50 +186,6 @@ F 3 "" H 3000 5300 60  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L DIODE D1
-U 1 1 5338B550
-P 4650 1950
-F 0 "D1" H 4650 2050 40  0000 C CNN
-F 1 "DIODE" H 4650 1850 40  0000 C CNN
-F 2 "~" H 4650 1950 60  0000 C CNN
-F 3 "~" H 4650 1950 60  0000 C CNN
-	1    4650 1950
-	1    0    0    -1  
-$EndComp
-$Comp
-L DIODE D2
-U 1 1 5338B55D
-P 4650 2200
-F 0 "D2" H 4650 2300 40  0000 C CNN
-F 1 "DIODE" H 4650 2100 40  0000 C CNN
-F 2 "~" H 4650 2200 60  0000 C CNN
-F 3 "~" H 4650 2200 60  0000 C CNN
-	1    4650 2200
-	1    0    0    -1  
-$EndComp
-$Comp
-L DIODE D3
-U 1 1 5338B563
-P 4700 750
-F 0 "D3" H 4700 850 40  0000 C CNN
-F 1 "DIODE" H 4700 650 40  0000 C CNN
-F 2 "~" H 4700 750 60  0000 C CNN
-F 3 "~" H 4700 750 60  0000 C CNN
-	1    4700 750 
-	0    1    1    0   
-$EndComp
-$Comp
-L DIODE D4
-U 1 1 5338B569
-P 4950 750
-F 0 "D4" H 4950 850 40  0000 C CNN
-F 1 "DIODE" H 4950 650 40  0000 C CNN
-F 2 "~" H 4950 750 60  0000 C CNN
-F 3 "~" H 4950 750 60  0000 C CNN
-	1    4950 750 
-	0    1    1    0   
-$EndComp
-$Comp
 L CONN_1 P5
 U 1 1 5338B571
 P 4500 1000
@@ -249,14 +206,6 @@ NoConn ~ 5700 1700
 Text Label 5400 800  0    60   ~ 0
 O1
 Text Label 5400 900  0    60   ~ 0
-O2
-Text Label 4950 500  0    60   ~ 0
-O1
-Text Label 4700 500  0    60   ~ 0
-O2
-Text Label 4900 1950 0    60   ~ 0
-O1
-Text Label 4900 2200 0    60   ~ 0
 O2
 $Comp
 L CONN_5 P1
@@ -468,26 +417,10 @@ Wire Wire Line
 Connection ~ 3350 5200
 Wire Wire Line
 	4650 1000 5550 1000
-Wire Wire Line
-	4450 1950 4400 1950
 Connection ~ 4400 1950
-Wire Wire Line
-	4400 2200 4450 2200
 Connection ~ 4400 2200
-Wire Wire Line
-	4700 950  4700 1000
 Connection ~ 4700 1000
-Wire Wire Line
-	4950 950  4950 1000
 Connection ~ 4950 1000
-Wire Wire Line
-	4950 550  4950 500 
-Wire Wire Line
-	4700 550  4700 500 
-Wire Wire Line
-	4850 1950 4950 1950
-Wire Wire Line
-	4850 2200 4950 2200
 Wire Wire Line
 	5350 900  5700 900 
 Wire Wire Line
