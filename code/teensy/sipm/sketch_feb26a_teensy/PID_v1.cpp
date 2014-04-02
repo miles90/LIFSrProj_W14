@@ -102,7 +102,7 @@ void PID::SetTunings(double Kp, double Ki, double Kd)
 /* SetSampleTime(...) *********************************************************
  * sets the period, in Milliseconds, at which the calculation is performed	
  ******************************************************************************/
-void PID::SetSampleTime(double NewSampleTime)
+void PID::SetSampleTime(int NewSampleTime)
 {
    if (NewSampleTime > 0)
    {

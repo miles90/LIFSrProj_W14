@@ -1,4 +1,4 @@
-(pcb "/home/paul/git/LIFSrProj_W14/pcb/teensy-sipm.dsn"
+(pcb "/home/paul/Documents/git/LIFSrProj_W14/pcb/teensypcb/teensy-sipm.dsn"
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
@@ -21,8 +21,7 @@
       )
     )
     (boundary
-      (path pcb 0  207010 -121920  207010 -196850  143510 -196850  143510 -121920
-            207010 -121920)
+      (rect pcb 181862 -127889 257370 -215496)
     )
     (via "Via[0-1]_889:635_um" "Via[0-1]_889:0_um")
     (rule
@@ -34,36 +33,30 @@
   )
   (placement
     (component "Teensy-3"
-      (place U1 158750 -139700 front 0 (PN TEENSY3))
+      (place U1 220980 -148590 back 0 (PN TEENSY3))
     )
     (component SMA_EDGE
-      (place SMA_E1 137160 -171450 front 180 (PN SMA_EDGE))
+      (place SMA_E1 250190 -163830 front 0 (PN SMA_EDGE))
     )
     (component "SIL-5"
-      (place P1 199390 -147320 front 270 (PN CONN_5))
-      (place P2 199390 -129540 front 90 (PN CONN_5))
+      (place P1 194310 -177800 front 180 (PN CONN_5))
+      (place P2 236220 -181610 front 90 (PN CONN_5))
     )
     (component "SIL-14"
-      (place P3 184150 -142240 front 270 (PN CONN_14))
-      (place P4 149860 -142240 front 90 (PN CONN_14))
+      (place P3 198120 -151130 front 270 (PN CONN_14))
+      (place P4 228600 -151130 front 90 (PN CONN_14))
     )
     (component "SIL-1"
-      (place P5 200660 -182880 front 0 (PN CONN_1))
+      (place P5 228600 -194310 front 0 (PN CONN_1))
     )
     (component R1
-      (place R1 179070 -163830 front 90 (PN R))
+      (place R1 218440 -190500 front 0 (PN R))
     )
     (component "MULTIWATT-15"
-      (place IC2 163830 -185420 front 180 (PN L298))
+      (place IC2 194310 -213360 front 180 (PN L298))
     )
     (component "DIP-14__300_ELL"
-      (place IC1 163830 -167640 front 180 (PN LF347D))
-    )
-    (component D3
-      (place D1 203200 -176530 front 270 (PN DIODE))
-      (place D2 196850 -162560 front 270 (PN DIODE))
-      (place D3 204470 -161290 front 90 (PN DIODE))
-      (place D4 189230 -167640 front 270 (PN DIODE))
+      (place IC1 214630 -179070 front 180 (PN LF347D))
     )
   )
   (library
@@ -203,21 +196,21 @@
       (outline (path signal 152.4  9144 -3302  9398 -3302))
       (outline (path signal 152.4  -9398 254  -9398 -3302))
       (outline (path signal 152.4  9398 254  9398 -3302))
-      (pin Oval[A]Pad_1524x3048_um 1 -8890 -7620)
-      (pin Oval[A]Pad_1524x3048_um 2 -7620 -2540)
-      (pin Oval[A]Pad_1524x3048_um 3 -6350 -7620)
-      (pin Oval[A]Pad_1524x3048_um 4 -5080 -2540)
-      (pin Oval[A]Pad_1524x3048_um 5 -3810 -7620)
-      (pin Oval[A]Pad_1524x3048_um 6 -2540 -2540)
-      (pin Oval[A]Pad_1524x3048_um 7 -1270 -7620)
-      (pin Oval[A]Pad_1524x3048_um 8 0 -2540)
-      (pin Oval[A]Pad_1524x3048_um 9 1270 -7620)
-      (pin Oval[A]Pad_1524x3048_um 10 2540 -2540)
-      (pin Oval[A]Pad_1524x3048_um 11 3810 -7620)
-      (pin Oval[A]Pad_1524x3048_um 12 5080 -2540)
-      (pin Oval[A]Pad_1524x3048_um 13 6350 -7620)
-      (pin Oval[A]Pad_1524x3048_um 14 7620 -2540)
-      (pin Oval[A]Pad_1524x3048_um 15 8890 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 1 -8890 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 2 -7620 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 3 -6350 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 4 -5080 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 5 -3810 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 6 -2540 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 7 -1270 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 8 0 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 9 1270 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 10 2540 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 11 3810 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 12 5080 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 13 6350 -7620)
+      (pin Oval[TB]Pad_1524x3048_um 14 7620 -2540)
+      (pin Oval[TB]Pad_1524x3048_um 15 8890 -7620)
     )
     (image "DIP-14__300_ELL"
       (outline (path signal 381  -10160 2540  10160 2540))
@@ -242,20 +235,6 @@
       (pin Oval[A]Pad_1574.8x2286_um 13 -5080 3810)
       (pin Oval[A]Pad_1574.8x2286_um 14 -7620 3810)
     )
-    (image D3
-      (outline (path signal 304.8  3810 0  3048 0))
-      (outline (path signal 304.8  3048 0  3048 1016))
-      (outline (path signal 304.8  3048 1016  -3048 1016))
-      (outline (path signal 304.8  -3048 1016  -3048 0))
-      (outline (path signal 304.8  -3048 0  -3810 0))
-      (outline (path signal 304.8  -3048 0  -3048 -1016))
-      (outline (path signal 304.8  -3048 -1016  3048 -1016))
-      (outline (path signal 304.8  3048 -1016  3048 0))
-      (outline (path signal 304.8  2540 1016  2540 -1016))
-      (outline (path signal 304.8  2286 -1016  2286 1016))
-      (pin Rect[A]Pad_1397x1397_um 2 3810 0)
-      (pin Round[A]Pad_1397_um 1 -3810 0)
-    )
     (padstack Round[A]Pad_1397_um
       (shape (circle F.Cu 1397))
       (shape (circle B.Cu 1397))
@@ -266,7 +245,7 @@
       (shape (circle B.Cu 1524))
       (attach off)
     )
-    (padstack Oval[A]Pad_1524x3048_um
+    (padstack Oval[TB]Pad_1524x3048_um
       (shape (path F.Cu 1524  0 -762  0 762))
       (shape (path B.Cu 1524  0 -762  0 762))
       (attach off)
@@ -317,10 +296,10 @@
   )
   (network
     (net /O1
-      (pins P2-3 IC2-2 D1-2 D4-1)
+      (pins P2-3 IC2-2)
     )
     (net /O2
-      (pins P1-2 IC2-3 D2-2 D3-1)
+      (pins P1-2 IC2-3)
     )
     (net /OM
       (pins P1-1 P2-4)
@@ -335,13 +314,13 @@
       (pins U1-7 P3-7)
     )
     (net "N-0000011"
-      (pins U1-30 P4-11)
-    )
-    (net "N-0000012"
       (pins U1-32 P4-13)
     )
-    (net "N-0000013"
+    (net "N-0000012"
       (pins U1-31 P4-12)
+    )
+    (net "N-0000013"
+      (pins U1-30 P4-11)
     )
     (net "N-0000014"
       (pins U1-6 P3-6)
@@ -374,7 +353,7 @@
       (pins IC2-6 IC1-6 IC1-7)
     )
     (net "N-0000026"
-      (pins P5-1 IC2-4 D3-2 D4-2)
+      (pins P5-1 IC2-4)
     )
     (net "N-0000027"
       (pins P2-5 IC1-12)
@@ -388,29 +367,29 @@
     (net "N-000004"
       (pins U1-25 P4-6)
     )
-    (net "N-0000040"
+    (net "N-0000042"
       (pins U1-21 SMA_E1-1 SMA_E1-1@1 P4-2)
     )
-    (net "N-0000042"
+    (net "N-0000043"
       (pins U1-14 P3-14 IC1-3)
     )
-    (net "N-0000043"
+    (net "N-0000044"
       (pins U1-13 P3-13 IC1-5)
     )
-    (net "N-0000044"
+    (net "N-0000045"
       (pins U1-12 P3-12 IC1-10)
     )
     (net "N-000005"
       (pins U1-22 P4-3)
     )
-    (net "N-0000056"
+    (net "N-0000057"
       (pins U1-33 P1-4 P2-1 P4-14 IC2-9)
-    )
-    (net "N-0000058"
-      (pins U1-1 SMA_E1-0 SMA_E1-2 P1-5 P2-2 P3-1 R1-1 IC2-8 D1-1 D2-1)
     )
     (net "N-000006"
       (pins U1-11 P3-11)
+    )
+    (net "N-0000065"
+      (pins U1-1 SMA_E1-0 SMA_E1-2 P1-5 P2-2 P3-1 R1-1 IC2-8)
     )
     (net "N-0000066"
       (pins IC2-5 IC1-1 IC1-2)
@@ -428,8 +407,8 @@
       "N-0000011" "N-0000012" "N-0000013" "N-0000014" "N-0000015" "N-0000016"
       "N-000002" "N-0000020" "N-0000021" "N-0000022" "N-0000023" "N-0000024"
       "N-0000025" "N-0000026" "N-0000027" "N-0000028" "N-000003" "N-000004"
-      "N-0000040" "N-0000042" "N-0000043" "N-0000044" "N-000005" "N-0000056"
-      "N-0000058" "N-000006" "N-0000066" "N-000007" "N-000008" "N-000009"
+      "N-0000042" "N-0000043" "N-0000044" "N-0000045" "N-000005" "N-0000057"
+      "N-000006" "N-0000065" "N-0000066" "N-000007" "N-000008" "N-000009"
       (circuit
         (use_via Via[0-1]_889:635_um)
       )
