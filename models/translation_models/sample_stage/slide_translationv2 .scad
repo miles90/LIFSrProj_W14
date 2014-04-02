@@ -41,12 +41,16 @@ module outer_axis() {
 		translate([0,-15,0]) mirror([0,1,0]) outer_mount();
 		mirror([1,0,0]) translate([80,-15,0]) mirror([0,1,0]) outer_mount();
 	}
-	outer_axis_drive_mount();
+	translate([0,-5.75,0]) outer_axis_drive_mount();
+	translate([-40,49.75,10]) rotate([0,0,-90]) tbs_adj();
 }
 
 module outer_axis_drive_mount() {
-	translate([0,-5.75,0]) difference() {
-		translate([-41.75,40,2]) cube([152.5,25,20],center=true);
+	difference() {
+		union() {//base
+			translate([-41.75,40,2]) cube([152.5,25,20],center=true);
+			translate([-40,52.5,2]) cube([55,50,20],center=true);
+		}
 		//Driver inner mount side
 		translate([-102,35,2]) cube([40,25,17],center=true);
 		translate([-97,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
@@ -55,6 +59,10 @@ module outer_axis_drive_mount() {
 		translate([20,35,2]) cube([40,25,17],center=true);
 		translate([27.5,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
 		translate([14.5,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
+		//Cutout for TBS
+		translate([-40,52.5,0]) cube([46,40,25],center=true);
+		translate([-22.5,52.5,5.5]) rotate([90,0,0]) cylinder(h=100,r=screw_rad,center=true,$fn=50);//screw_hole
+		translate([-57.5,52.5,5.5]) rotate([90,0,0]) cylinder(h=100,r=screw_rad,center=true,$fn=50);//screw hole
 	}
 }
 	
