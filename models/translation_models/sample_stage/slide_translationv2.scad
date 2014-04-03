@@ -1,11 +1,11 @@
-  use <../threadless_ball_screws/TBS_5x2_adjustable.scad>
+use <../threadless_ball_screws/TBS_5x2_adjustable.scad>
 include <../components/5v_stepper_motor.scad>
 include <../pinhole_stage/xy_axis.scad>
 
 slide_clearance_w = 0; //Slide width is 45mm
 slide_clearance_l = 15; //Slide length is 85mm
 static_rod_r = 9.53/2;
-outer_axis_static_rod_length = 200;
+outer_axis_static_rod_length = 150;
 outer_axis_drive_rod_length = 110; 
 inner_axis_drive_rod_length = 110;
 inner_axis_static_rod_length = 140;
@@ -32,21 +32,20 @@ module two_axis_slide_stage() {
 }
 
 module outer_axis() {
-	color("lightGrey") translate([-mount_position-80,0,15-10]) smooth_rod(oa_st_rod_l, static_rod_r);
-	color("darkGrey") translate([45,0,42]) rotate([180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, center=true, $fn=50);
+	color("darkGrey") translate([-mount_position-80,0,5]) rotate([180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, center=true, $fn=50);
+	color("darkGrey") translate([45,0,5]) rotate([180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, center=true, $fn=50);
 	//%translate([60,0,15]) rotate([0,0,90]) tbs_adj();
 	rotate([-90,0,0]) union() {
-		outer_mount();
-		translate([-80,0,0]) mirror([1,0,0]) outer_mount();
-		translate([0,-15,0]) mirror([0,1,0]) outer_mount();
-		mirror([1,0,0]) translate([80,-15,0]) mirror([0,1,0]) outer_mount();
+		translate([0,5,0]) outer_mount(); //bearing side
+		translate([-80,5,0]) mirror([1,0,0]) outer_mount(); //bearing side
+		translate([0,-15,0]) mirror([0,1,0]) outer_mount(); //motor side
+		mirror([1,0,0]) translate([80,-15,0]) mirror([0,1,0]) outer_mount();//motor side
 	}
 	translate([0,-5.75,0]) outer_axis_drive_mount();
 	translate([-40,49.75,10]) rotate([0,0,-90]) tbs_adj();
 	translate([-42.5,55,-90]) outer_motor_seat();
-	translate([-37.5,55,105]) rotate([0,180,0]) color("lightblue") outer_bearing_seat();
-	translate([-40,50,-62.5]) rotate([90,0,0]) 
-	union(){
+	translate([-37.5,55,100]) rotate([0,180,0]) outer_bearing_seat();
+	translate([-40,50,-42.5]) rotate([90,0,0]) union(){
 		stepper_motor();
 		translate([0,15,0]) rotate([90,0,0]) coupler(coupler_dim, 2.5,2.5);
 	}
@@ -55,11 +54,9 @@ module outer_axis() {
 module outer_motor_seat() { //holds the outer motor and attaches to outer_mounts
 	difference() {
 		union() {
-			difference() {
-				translate([2.5,-3,-7.5]) cube([105,36,35],center=true);
-				translate([2.5,5,11]) cube([50,40,30],center=true);//make space for step motor mount
-			}
-			color("gold") translate([-35,-5,20]) rotate([-90,-90,0]) stepper_mount(30);
+			translate([2.5,-3,-7.5]) cube([105,36,35],center=true);
+			translate([2.5,0,11]) cube([50,30,30],center=true);//make space for step motor mount
+			translate([-35,-5,41.5]) rotate([-90,-90,0]) stepper_mount(30);
 			translate([52.55,-15,-7.5]) cube([4.9,50,35],center=true);
 			translate([32.45,-15,-7.5]) cube([4.9,50,35],center=true);
 			translate([-47.55,-15,-7.5]) cube([4.9,50,35],center=true);
@@ -77,8 +74,10 @@ module outer_bearing_seat() { //holds the outer bearing and attaches to outer_mo
 		union() {
 			translate([2.5,-3,-7.5]) cube([105,36,35],center=true);
 			difference() {
-				translate([2.5,-3,20]) cube([30,36,30],center=true);//make space for step motor mount
+				translate([2.5,-3,25]) cube([30,36,35],center=true);//bearing case
+				translate([2.5,-5,40]) cylinder(h=5.5, r=lin_bearing_or, center=true, $fn=50);
 			}
+			%translate([2.5,-5,40]) bearing(2.5,bearing_od/2);
 			translate([52.55,-15,-7.5]) cube([4.9,50,35],center=true);
 			translate([32.45,-15,-7.5]) cube([4.9,50,35],center=true);
 			translate([-47.55,-15,-7.5]) cube([4.9,50,35],center=true);
@@ -102,7 +101,7 @@ module outer_axis_drive_mount() {
 		translate([-97,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
 		translate([-110,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
 		//Static inner mount side
-		translate([20,35,2]) cube([40,25,17],center=true);
+		translate([20,35,2]) cube([40,25,15.5],center=true);
 		translate([27.5,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
 		translate([14.5,35.75,0]) cylinder(h=50,r=3,center=true,$fn=50);
 		//Cutout for TBS
