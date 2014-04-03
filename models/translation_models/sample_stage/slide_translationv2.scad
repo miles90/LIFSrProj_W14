@@ -43,6 +43,52 @@ module outer_axis() {
 	}
 	translate([0,-5.75,0]) outer_axis_drive_mount();
 	translate([-40,49.75,10]) rotate([0,0,-90]) tbs_adj();
+	translate([-42.5,55,-90]) outer_motor_seat();
+	translate([-37.5,55,105]) rotate([0,180,0]) color("lightblue") outer_bearing_seat();
+	translate([-40,50,-62.5]) rotate([90,0,0]) 
+	union(){
+		stepper_motor();
+		translate([0,15,0]) rotate([90,0,0]) coupler(coupler_dim, 2.5,2.5);
+	}
+}
+
+module outer_motor_seat() { //holds the outer motor and attaches to outer_mounts
+	difference() {
+		union() {
+			difference() {
+				translate([2.5,-3,-7.5]) cube([105,36,35],center=true);
+				translate([2.5,5,11]) cube([50,40,30],center=true);//make space for step motor mount
+			}
+			color("gold") translate([-35,-5,20]) rotate([-90,-90,0]) stepper_mount(30);
+			translate([52.55,-15,-7.5]) cube([4.9,50,35],center=true);
+			translate([32.45,-15,-7.5]) cube([4.9,50,35],center=true);
+			translate([-47.55,-15,-7.5]) cube([4.9,50,35],center=true);
+			translate([-27.45,-15,-7.5]) cube([4.9,50,35],center=true);
+		}
+		translate([50,-7,105]) rotate([90,0,0]) union() {
+			translate([-80.5,-122,24]) rotate([0,90,0]) cylinder(h=200,r=3,center=true,$fn=50);
+			translate([-80.5,-108,24]) rotate([0,90,0]) cylinder(h=200,r=3,center=true,$fn=50);
+		}
+	}
+}
+
+module outer_bearing_seat() { //holds the outer bearing and attaches to outer_mounts
+	difference() {
+		union() {
+			translate([2.5,-3,-7.5]) cube([105,36,35],center=true);
+			difference() {
+				translate([2.5,-3,20]) cube([30,36,30],center=true);//make space for step motor mount
+			}
+			translate([52.55,-15,-7.5]) cube([4.9,50,35],center=true);
+			translate([32.45,-15,-7.5]) cube([4.9,50,35],center=true);
+			translate([-47.55,-15,-7.5]) cube([4.9,50,35],center=true);
+			translate([-27.45,-15,-7.5]) cube([4.9,50,35],center=true);
+		}
+		translate([50,-7,105]) rotate([90,0,0]) union() {
+			translate([-80.5,-122,24]) rotate([0,90,0]) cylinder(h=200,r=3,center=true,$fn=50);
+			translate([-80.5,-108,24]) rotate([0,90,0]) cylinder(h=200,r=3,center=true,$fn=50);
+		}
+	}
 }
 
 module outer_axis_drive_mount() {
@@ -67,33 +113,43 @@ module outer_axis_drive_mount() {
 }
 	
 module outer_mount() { 
-	difference() {
-		union() {
-			difference() {
-				translate([-40-62.5,-97.5,0]) cube([125,65,30],center=true);
-				translate([-30,-75,0]) cube([137,50,35],center=true);//cutout for sample arm to move
-				rotate([90,0,0]) translate([-mount_position-80,0,15-10]) smooth_rod(oa_st_rod_l, static_rod_r+.25);
-				translate([-155,-90,0]) cube([28,81,31],center=true);// outside edge cutout
-				translate([-140,-90,0]) cube([30,51,1],center=true);//adj gap
-				translate([-135,-74,0]) cylinder(h=70,r=screw_rad,center=true,$fn=50);//screw hole
-				translate([-135,-72,-8]) cube([screw_nut_size,screw_nut_size+3.1,4],center=true);//nut hole
-				// Frame Mounting Holes 1
-				translate([-25-80,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-				translate([-25-80,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-				translate([-25-80,-130+14.75,5]) cube([5.25,150,2.5],center=true);
-				// Frame Mounting Holes 2
-				translate([10-80,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-				translate([10-80,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
-				translate([10-80,-130+14.75,5]) cube([5.25,100,2.5],center=true);
+	union() {
+		difference() {
+			translate([-102.5,-97.5,0]) cube([125,65,30],center=true);
+			translate([-30,-75,0]) cube([137,50,35],center=true);//cutout for sample arm to move
+			rotate([90,0,0]) translate([-mount_position-80,0,15-10]) smooth_rod(oa_st_rod_l, static_rod_r+.25);
+			translate([-155,-90,0]) cube([28,81,31],center=true);// outside edge cutout
+			translate([-140,-90,0]) cube([30,51,1],center=true);//adj gap
+			translate([-135,-74,0]) cylinder(h=70,r=screw_rad,center=true,$fn=50);//screw hole
+			translate([-135,-72,-8]) cube([screw_nut_size,screw_nut_size+3.1,4],center=true);//nut hole
+			// Frame Mounting Holes 1
+			translate([-25-80,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
+			translate([-25-80,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
+			translate([-25-80,-130+14.75,5]) cube([5.25,150,2.5],center=true);
+			// Frame Mounting Holes 2
+			translate([20-80,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
+			translate([20-80,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
+			translate([20-80,-130+14.75,5]) cube([5.25,100,2.5],center=true);
+			// Frame Mounting Holes 3
+			translate([-256.25+5.25,0,0]) rotate([0,0,90]) union() {
+				translate([-100,-130+5.25,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
+				translate([-100,-130+14.75,0]) cylinder(h=100,r=2,center=true,$fn=50);//screw hole
+				translate([-100,-130+14.75,10]) cube([5.75,25,2.5],center=true);
 			}
 		}
+		difference() { //mounts for motor and bearing seat
+			translate([-80,-115,24]) cube([15,30,20],center=true);
+			translate([-80.5,-122,24]) rotate([0,90,0]) cylinder(h=40,r=3,center=true,$fn=50);
+			translate([-80.5,-108,24]) rotate([0,90,0]) cylinder(h=40,r=3,center=true,$fn=50);
+		}
 	}
-	difference() { //Mounting holes for motor side
+	difference() { //Mounting holes to connect both two sides together
 		translate([-43.75,-115,0]) cube([7.5,30,60],center=true);
-		translate([-32.5,-115,22.5]) rotate([0,90,0]) cylinder(h=50,r=3,center=true,$fn=50);
-		translate([-32.5,-115,-22.5]) rotate([0,90,0]) cylinder(h=50,r=3,center=true,$fn=50);
+		translate([-32.5,-115,22.5]) rotate([0,90,0]) cylinder(h=40,r=3,center=true,$fn=50);
+		translate([-32.5,-115,-22.5]) rotate([0,90,0]) cylinder(h=40,r=3,center=true,$fn=50);
 	}
 }
+
 
 module inner_axis() {
 	color("slateGrey") translate([40,-5,7]) rotate([0,-90,0]) cylinder(h=ia_st_rod_l, r=static_rod_r,$fn=50);
@@ -161,6 +217,18 @@ module inner_stepper_mount(height=27.5) {
 			}
 		}
 		translate([-5,0,5]) cube([40,30,height],center=true);
+	}
+}
+
+module stepper_mount(height=27.5) {
+	difference() {
+		translate([-10,37.5,5]) cube([30,50,height],center=true);
+		translate([6.5,37.5,0]) rotate([0,180,-90]) stepper_motor(shaft=2.5,radius=14.5,width=34);
+		translate([-5,37.5,17.5]) cube([30,29,20],center=true);
+		translate([-5,20.5,8]) rotate([0,90,0]) cylinder(h=21,r=1.75,center=true,$fn=100);
+		translate([-5,54.5,8]) rotate([0,90,0]) cylinder(h=21,r=1.75,center=true,$fn=100);
+		translate([-2,20.5,30]) cube([2.5,5.25,50],center=true);
+		translate([-2,54.5,30]) cube([2.5,5.25,50],center=true);
 	}
 }
 
