@@ -1,0 +1,273 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf400
+{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;\red245\green245\blue245;}
+\margl1440\margr1440\vieww19360\viewh20540\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs30 \cf2 \cb3 #include <Stepper.h>\
+#include <Wire.h>\
+#include <Adafruit_MotorShield.h>\
+#include "utility/Adafruit_PWMServoDriver.h"\
+\
+#define Xmax 2500	// 2500 steps * 4 microns per step ~= 1 cm\
+#define Ymax 2500\
+#define Zmax 2500\
+#define mode 1		// 1 for calibration mode, 2 for regular operation\
+\
+\
+// change these values to whatever results we get from calibration\
+#define calibrated_x 1234\
+#define calibrated_y 1234\
+#define calibrated_z 1234\
+\
+Adafruit_StepperMotor *pinhole_x = AFMS.getStepper(200, 1);\
+Adafruit_StepperMotor *pinhole_y = AFMS.getStepper(200, 2);\
+Adafruit_StepperMotor *pinhole_z = AFMS.getStepper(200, 3);\
+Adafruit_StepperMotor *sample_x = AFMS.getStepper(200, 4);\
+Adafruit_StepperMotor *sample_y = AFMS.getStepper(200, 5);\
+Adafruit_StepperMotor *sample_z = AFMS.getStepper(200, 6);\
+\
+int SPM = A0;\
+\
+\
+void setup() \{\
+	\
+	\
+	\
+\
+	// set the motor speed at 60 RPMS\
+	pinhole_x.setSpeed(60);\
+	pinhole_y.setSpeed(60);	\
+	pinhole_z.setSpeed(60);\
+	sample_x.setSpeed(60);\
+	sample_y.setSpeed(60);\
+	sample_z.setSpeed(60);\
+\
+\
+	// Initialize the Serial port:\
+	Serial.begin(9600);\
+\
+	move_sample();\
+\
+\}\
+\
+void move_sample() \{\
+\
+	int instruction = 0;\
+\
+	//instructions subject to change based on possibility of using arrow keys and shift\
+	Serial.println(\'93Move the sample in the x-y direction with the ASDW keys.  Use F and R");\
+	Serial.println("to move the sample up and down.  For larger movements, \'93);\
+	Serial.println(\'93use uppercase.  Use lowercase for smaller movements.  Press Enter when done.\\n\'94);\
+\
+	while (instruction != 13)	// while instruction not enter\
+	\{\
+		instruction = Serial.read();\
+		\
+		switch(instruction)\
+		\{\
+			case 65:	//A\
+				sample_x.step(10, BACKWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 97:	//a\
+				sample_x.step(1, BACKWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 83:	//S\
+				sample_y.step(10, BACKWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 115:	//s\
+				sample_y.step(1, BACKWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 68:	//D\
+				sample_x.step(10, FOWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 100:	//d\
+				sample_x.step(1, FOWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 87:	//W\
+				sample_y.step(10, FOWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 119:	//w\
+				sample_y.step(1, FOWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 70:	//F\
+				sample_z.step(10, BACKWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 102:	//f\
+				sample_z.step(1, BACKWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 82:	//R\
+				sample_z.step(10, FORWARD, SINGLE);\
+				delay(100);\
+				break;\
+			case 114:	//r\
+				sample_z.step(11, FORWARD, SINGLE);\
+				delay(100);\
+				break;\
+			default:\
+				break;\
+			\
+		\}\
+	\
+	\}\
+\
+	if (mode = 1)\
+		calibrate_pinhole();\
+	else\
+		move_pinhole();\
+		\
+\}\
+\
+\
+void calibrate_pinhole() \{\
+\
+	int samples[Xmax];\
+	int smoothed1[Xmax];\
+	int smoothed2[Xmax];\
+	int smoothed3[Xmax];\
+\
+	int x;\
+	int y;\
+	int z;\
+	int max = 0;\
+	int max_x;\
+	int max_y;\
+	int max_z;\
+\
+	pinhole_x.step(2500, BACKWARD, SINGLE);\
+	pinhole_y.step(2500, BACKWARD, SINGLE);\
+	pinhole_z.step(2500, BACKWARD, SINGLE);\
+\
+	for (z = 0; z < Zmax; z++)\
+	\{\
+		for (y = 0; y < Ymax; y++)\
+		\{\
+			//step forward for a row\
+			for (x = 0; x < Xmax; x++)\
+			\{\
+				samples[x] = analogRead(SPM);\
+				pinhole_x.step(1, FORWARD, SINGLE);\
+			\}		\
+\
+			//smooth the data\
+			smoothed1 = average_row(samples[Xmax], 10);\
+			smoothed2 = average_row(smoothed1[Xmax], 7);\
+			smoothed3 = average_row(smoothed2[Xmax], 5);\
+	\
+			for(x = 0; x < Xmax; x++)\
+			\{	\
+				if (smoothed3[x] > max)\
+				\{	\
+					max = smoothed3[x];\
+					max_x = x;\
+					max_y = y;\
+					max_z = z;\
+				\}\
+			\}\
+			pinhole_x.step(2500, BACKWARD, SINGLE);	\
+			pinhole_y.step(1, FORWARD, SINGLE);\
+		\}\
+		pinhole_x.step(2500, BACKWARD, SINGLE);	\
+		pinhole_y.step(2500, BACKWARD, SINGLE);\
+		pinhole_z.step(1, FORWARD, SINGLE);\
+	\}\
+\
+	Serial.print("Max coordinates are (");\
+	Serial.print(max_x, DEC);\
+	Serial.print(",");\
+	Serial.print(max_y, DEC);\
+	Serial.print(",");\
+	Serial.print(max_z, DEC);\
+	Serial.print(").\\n");	\
+\
+\}\
+\
+void move_pinhole()\
+\{\
+\
+	int x;\
+	int y;\
+	int z;	\
+	int max_x = 0;\
+	int max_y = 0;\
+	int max_z = 0;\
+\
+	pinhole_x.step(2500, BACKWARD, SINGLE);\
+	pinhole_y.step(2500, BACKWARD, SINGLE);\
+	pinhole_z.step(2500, BACKWARD, SINGLE);\
+	pinhole_x.step(calibrated_x - 20, FORWARD, SINGLE);\
+	pinhole_y.step(calibrated_y - 20, FORWARD, SINGLE);\
+	pinhole_z.step(calibrated_z - 20, FORWARD, SINGLE);\
+\
+	for (z = -20; z <= 20; z++)\
+		for (y = -20; y <= 20; y++)\
+			for (x = -20; x <= 20; x++)\
+				\
+\
+\
+\}\
+\
+\
+\
+int[Xmax] average_row(int[Xmax] sample, int sample_size)\
+\{\
+	int x;\
+	int i;\
+	int sum;\
+	int[Xmax] smoothed;\
+	\
+	for(x = 0; x < sample_size; x++)\
+	\{	\
+		sum = 0;\
+		for(i = -x; i < sample_size; i++)\
+		\{\
+			sum += sample[x+i];\
+		\}\
+		smoothed[x] = sum/(sample_size + 1 + x)\
+	\}\
+		\
+	for(x = sample_size; x < (Xmax - sample_size); x++)\
+	\{	\
+		sum = 0;\
+		for(i = -sample_size; i < sample_size; i++)\
+		\{\
+			sum += sample[x+i]\
+		\}\
+		smoothed[x] = sum/(2*sample_size + 1);\
+	\}\
+	\
+	for(x = Xmax - sample_size; x < Xmax; x++)\
+	\{\
+		sum = 0;\
+		for (i = -sample_size; i < (Xmax-x); i++)\
+		\{\
+			sum += sample[x+i];\
+		\}\
+		smoothed[x] = sum/(sample_size + 1 + (Xmax-x));\
+	\}\
+\
+\
+\}\
+\
+\
+\
+\
+\
+\}\
+\
+void loop() \{\
+	delay(500); \
+\}\
+\
+}
