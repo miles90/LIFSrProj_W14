@@ -50,13 +50,13 @@ module vert_stage(){
 	color("grey") translate([-40,0,70.5]) smooth_rod(vert_drive_rod_length, rod_radius);
 	translate([-40,0,85]) rotate([0,0,90]) tbs_adj();
 	union() {
-		tbs_mount_z_axis();
 		frame();
 	}
 }
 
 module frame() {
 	top_pos = 120;
+	tbs_mount_z_axis();
 	union() {
 		difference() {//top frame
 			translate([0,5,top_pos]) cube([150,35,20],center=true);
