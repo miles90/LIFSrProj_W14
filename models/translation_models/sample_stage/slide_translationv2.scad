@@ -35,12 +35,13 @@ module outer_axis() {
 	color("darkGrey") translate([-mount_position-80,0,5]) rotate([180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, center=true, $fn=50);
 	color("darkGrey") translate([45,0,5]) rotate([180,0,0]) cylinder(h=oa_st_rod_l, r=static_rod_r, center=true, $fn=50);
 	//%translate([60,0,15]) rotate([0,0,90]) tbs_adj();
-	rotate([-90,0,0]) union() {
+	%rotate([-90,0,0]) union() {
 		translate([0,5,0]) outer_mount(); //bearing side
 		translate([-80,5,0]) mirror([1,0,0]) outer_mount(); //bearing side
 		translate([0,-15,0]) mirror([0,1,0]) outer_mount(); //motor side
 		mirror([1,0,0]) translate([80,-15,0]) mirror([0,1,0]) outer_mount();//motor side
 	}
+translate([0,0,0]) cube([10,100,10],center=true);
 	translate([0,-5.75,0]) outer_axis_drive_mount();
 	translate([-40,49.75,10]) rotate([0,0,-90]) tbs_adj();
 	translate([-42.5,55,-90]) outer_motor_seat();
