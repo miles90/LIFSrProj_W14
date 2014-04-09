@@ -18,16 +18,6 @@ XY_AXIS_TRANS_STAGE();
 	}
 */
 
-module tbs_mount_z_axis() {
-	difference() {
-		union() {
-			translate([-30,-12.5,-22.5]) cube([60,20,5]);
-			translate([-30,-12.5,23.5]) cube([60,25,5]);
-		}
-		translate([17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
-		translate([-17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
-	}
-}
 
 module XY_AXIS_TRANS_STAGE() {
 	vert_stage();
@@ -46,13 +36,10 @@ module vert_stage(){
 
 	//coupler and rods
 	%translate([-40,0,115]) coupler(coupler_dim, 2.5,2.5);
-	color("grey") translate([static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
+	//color("grey") translate([static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
 	color("grey") translate([-40,0,70.5]) smooth_rod(vert_drive_rod_length, rod_radius);
 	translate([-40,0,85]) rotate([0,0,90]) tbs_adj();
-	union() {
-		tbs_mount_z_axis();
-		frame();
-	}
+	frame();
 }
 
 module frame() {
@@ -86,6 +73,7 @@ module frame() {
 		//Side support beams
 		translate([65,-12.5,0]) cube([15,15,top_pos+10]);
 		translate([-80,-12.5,0]) cube([15,15,top_pos+10]);
+		tbs_mount_z_axis();
 	}
 
 	//private modules
@@ -96,6 +84,23 @@ module frame() {
 		}
 		//translate([-mount_position-2.5,0,-7.5]) cube([50,45,30],center=true);
 		translate([-70,0,-15]) cube([20,45,15],center=true);
+	}
+
+	module tbs_mount_z_axis() {
+		difference() {
+			union() {
+				translate([-30,-12.5,-22.5]) cube([60,20,5]);
+				translate([-30,-12.5,23.5]) cube([60,25,5]);
+			}
+			translate([17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
+			translate([-17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
+		}
+		difference() {
+			translate([0,2,38.5]) cube([20,29,20],center=true);
+			translate([0,0,40]) cylinder(h=40,r=static_rod_radius,center=true,$fn=50);
+			translate([0,15,38.5]) cube([1.5,30,25],center=true);
+			translate([0,11,40]) rotate([0,90,0]) cylinder(h=40,r=2.5,center=true,$fn=50);
+		}
 	}
 }
 
