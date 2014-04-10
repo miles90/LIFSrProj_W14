@@ -5,7 +5,6 @@ vert_static_rod_length = 115;
 horz_rod_length = 80;
 static_rod_radius = 9.54/2;
 static_vert_rod_loc = 0;
-lin_bearing_or = lin_bearing_od/2;
 
 /*
 difference() {
@@ -57,10 +56,6 @@ module vert_stage(){
 	union() {
 		frame();
 	}
-	horz_platform();
-	translate([-62.5,52,82]) rotate([0,-90,0]) tbs_adj();
-	//TODO: Design lin bearing with platform for
-	//translate([-62.5,90,77]) rotate([180,0,0]) pinhole_lin_bearing();
 }
 
 module frame() {
@@ -88,18 +83,15 @@ module frame() {
 
 			//+x mount
 			difference() {
-				union() {
-					translate([0,0,-30]) rotate([180,0,0])tbs_side_support();
-					translate([-40,-33,-10]) cube([35,19,25],center=true);
-				}
-				translate([-40,-40,-10]) rotate([90,0,0]) cylinder(h=7,r=lin_bearing_od/2+.3,center=true,$fn=100);
+				translate([0,0,-30]) rotate([180,0,0])tbs_side_support();
+				translate([-40,-20,-10]) rotate([90,0,0]) cylinder(h=5.25,r=lin_bearing_od/2,center=true,$fn=100);
 			}
-			%translate([-40,-40,-10]) rotate([90,0,0]) bearing(2.5,8);
+			%translate([-40,-20,-10]) rotate([90,0,0]) bearing(2.5,8);
 			
 		}
 
 		//Side support beams
-		translate([23,-12.5,20]) cube([32,15,top_pos-20]);
+		translate([22.5,-12.5,0]) cube([32.5,15,top_pos+10]);
 		translate([-80,-12.5,0]) cube([15,15,top_pos+10]);
 	}
 
@@ -121,50 +113,8 @@ module pinhole() {
 	}
 }
 
-module horz_platform() {
-	difference() {
-		union() {
-			translate([-62,63.25,73]) color("lightgrey") cube([135,80,45],center=true);
-			translate([-22.5,2.5,78]) color("lightgrey") cube([80,50,15],center=true);
-		}
-		translate([-62.5,63.25,75]) cube([100,70,45],center=true);//platform cutout
-		translate([-40.5,2.75,77.5]) cube([47,41,50],center=true);
-		translate([10,12,10]) union() {//motor cutout
-			translate([-14,40,80]) rotate([0,90,0]) cylinder(h=20,r=14,$fn=50,center=true);
-			translate([-14,40,90]) cube([20,28,20],center=true);
-			%translate([-24,40,72]) rotate([90,0,0]) rotate([90,-90,0]) stepper_motor();
-		}
-		//bearing slot
-		translate([-115,52,82]) rotate([0,90,0]) cylinder(h=6,r=8.1,$fn=50,center=true);
-		//static rod
-		translate([-45,92,82]) rotate([0,90,0]) cylinder(h=200,r=static_rod_radius,$fn=50,center=true);
-	}
-}
-
-module pinhole_lin_bearing() {
-	case_width = 14.9;
-	difference() {
-		union() {
-			/* lin bearing casing */
-			difference() {
-				translate([2.5,-4.5,2]) cube([case_width,36.5,45],center=true);
-				translate([0,0,7]) rotate([0,90,0]) cylinder(h=30,r=lin_bearing_or,center=true,$fn=true);//lin bear hole
-				translate([2,-12.5,20]) cube([screw_nut_size+10,4,screw_nut_size],center=true);//nut hole
-				translate([2,-12.5,-10]) cube([screw_nut_size+10,4,screw_nut_size],center=true);//nut hole
-			}
-			/* TBS Mounting arms */
-			translate([2.5,25,23.25]) cube([case_width,70,2.51],center=true);
-			translate([2.5,25,-19.25]) cube([case_width,70,2.5],center=true);
-		}
-		/* screw holes to TBS */
-		translate([-.5,55,0]) cylinder(h=70,r=screw_rad+.25,center=true,$fn=50);//screw hole for tbs	
-		translate([-.5,20,0]) cylinder(h=70,r=screw_rad+.25,center=true,$fn=50);//screw hole for tbs
-		translate([2,-15,20]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);//screw hole for slide arm
-		translate([2,-15,-10]) rotate([90,0,0]) cylinder(h=40,r=screw_rad,center=true,$fn=50);//screw hole for slide arm
-	}
-}
-
 module horz_stage(height=27.5) {
+	lin_bearing_or = lin_bearing_od/2;
 	union() {
 		difference() {//Motor Seat
 			difference() {
@@ -188,6 +138,7 @@ module horz_stage(height=27.5) {
 }
 
 module tbs_pinhole_axis() {
+	lin_bearing_or=lin_bearing_od/2;
 	union() {
 		//tbs();
 		difference() {
