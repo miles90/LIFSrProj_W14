@@ -25,7 +25,7 @@ void serialEvent(Serial myPort)
     trgt = inValue.length > 1 ? int(h*(1/2 - float(inValue[1])/100)) : trgt;
     outpt = inValue.length > 2 ? int(h*(1/2 - float(inValue[2])/200)) : outpt;
     crnt = inValue.length > 3 ? int(h*(1/2 - 1.5*float(inValue[3])/2)) : crnt;
-    sipm = inValue.length > 4 ? int(inValue[4]) : sipm;
+    sipm = inValue.length > 4 ? int(h*float(inValue[4])/65536) : sipm;
     kp = inValue.length > 5 ? float(inValue[5]) : kp;
     ki = inValue.length > 6 ? float(inValue[6]) : ki;
     kd = inValue.length > 7 ? float(inValue[7]) : kd;
@@ -44,7 +44,7 @@ void serialEvent(Serial myPort)
     pg.stroke(100, 100, 50);
     pg.line(x, h/2 + crnt_1, x+1, h/2 + crnt);
     pg.stroke(150, 100, 50);
-    pg.line(x, -h*sipm_1/65536, x+1, -h*sipm/65536);
+    pg.line(x, h-sipm_1, x+1, h-sipm);
     pg.endDraw();
     image(pg, 0, 0);
     sipm_1 = sipm;
@@ -161,19 +161,19 @@ void setup()
   typing = "";
   date = "sipmPID-"
     +year()+"-"+month()+"-"+day()+"-"
-    +hour()+"-"+minute()+"-"+second()+"-";
+    +hour()+":"+minute()+":"+second()+"-";
   filename = date+xbuff+".png";
   x = 25;
   xbuff = 0;
   temp_1 = 0;
   w = 800;
-  h = 800;
+  h = 600;
   size(w, h+15+11);
   pg = createGraphics(w, h+11);
   txt = createGraphics(w, 15);
 
 
-  output = createWriter("positions.txt");
+  output = createWriter(date+xbuff+".txt");
   String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 115200);
   myPort.clear();

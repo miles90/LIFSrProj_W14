@@ -30,7 +30,6 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:sma_edge
-LIBS:sma
 LIBS:sipm-pcb-cache
 EELAYER 27 0
 EELAYER END
@@ -38,7 +37,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "SiPM schematic"
-Date "26 mar 2014"
+Date "7 apr 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -330,14 +329,6 @@ Wire Wire Line
 	3900 2850 3900 2050
 Wire Wire Line
 	3900 2050 4700 2050
-Wire Wire Line
-	4700 2050 4700 2450
-Wire Wire Line
-	4700 2450 4950 2450
-Wire Wire Line
-	4950 2650 4900 2650
-Wire Wire Line
-	4900 2650 4900 3600
 Connection ~ 5150 3600
 Wire Wire Line
 	4350 3350 4350 3300
@@ -346,7 +337,17 @@ Wire Wire Line
 Wire Wire Line
 	4450 3300 4450 2950
 Wire Wire Line
-	4450 2950 4950 2950
+	4950 2450 4650 2450
 Wire Wire Line
-	4950 2950 4950 2850
+	4650 2450 4650 2950
+Wire Wire Line
+	4900 3600 4900 2850
+Wire Wire Line
+	4900 2850 4950 2850
+Wire Wire Line
+	4950 2650 4700 2650
+Wire Wire Line
+	4650 2950 4450 2950
+Wire Wire Line
+	4700 2650 4700 2050
 $EndSCHEMATC

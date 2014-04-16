@@ -16,17 +16,13 @@
 #define R2 2.13
 #define R0 2.20
 #define C0 273.15
-<<<<<<< HEAD
-#define NumSamplesAverage 64
-=======
 #define NumAverageSamples 32
->>>>>>> 5bb912ab735743e26066b5708cccdcc405dc7276
 
 char line[50];
 double x[17], y[17];
 double consKp, consKd, consKi, Input, Output, Setpoint, ratio, alpha, Ts;
 unsigned int sipmreading;
-int lastTime;
+int lastTime, reboot, dormant;
 PID tecPID(&Input, &Output, &Setpoint, consKp, consKi, consKd, REVERSE);
 
 double gettemp(double vratio);
@@ -142,6 +138,9 @@ void interpretcommand(char *line)
     if (line[0] == 's' && line[1] == 't' && line[2] == 'o' && line[3] == 'p' ) {
       end();
     }
+    else if (line[0] == 'r' && line[1] == 'e' && line[2] == 'b' && line[3] == 't' ) {
+      reboot = 1;
+    }
     break;
   }
   memset(&line[0], 0, sizeof(char) * 50);
@@ -151,17 +150,13 @@ void end()
 {
   Output = 0;
   writeoutput();
-  exit(0);
+  dormant = 1;
+  //exit(0);
 }
 void setup()
 {
   analogReadResolution(16);
-<<<<<<< HEAD
-  analogWriteResolution(16);
-  analogReadAveraging(NumSamplesAverage);
-=======
   analogReadAveraging(NumAverageSamples);
->>>>>>> 5bb912ab735743e26066b5708cccdcc405dc7276
   pinMode(encPIN, OUTPUT);
   pinMode(minPIN, OUTPUT);
   pinMode(plusPIN, OUTPUT);
@@ -178,6 +173,8 @@ void setup()
   tecPID.SetOutputLimits(-100, 100);
   tecPID.SetSampleTime(1);
   lastTime = micros();
+  reboot = 0;
+  dormant = 0;
 }
 void loop()
 {
@@ -185,7 +182,7 @@ void loop()
   {
     interpretcommand(line);
   }
-  if(lastTime-micros() > 1000000){
+  if(dormant == 0 && lastTime-micros() > 1000000){
     lastTime = micros();
     sipmreading = analogRead(SiPMpin);
     double tmp = analogRead(tempPIN);
@@ -195,7 +192,11 @@ void loop()
     writeoutput();
     printinfo();
   }
-  if (Input >= 35 + C0)
+  if(dormant == 1 && reboot > 0){
+    dormant = 0;
+    reboot = 0;
+  }
+  if (dormant == 0 && Input >= 35 + C0)
   {
     end();
   }

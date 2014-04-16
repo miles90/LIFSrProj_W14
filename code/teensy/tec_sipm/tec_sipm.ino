@@ -15,7 +15,7 @@
 volatile int SiPMperiod = 6000;
 volatile boolean runSiPMtimer = false;
 volatile int PIDperiodMillis = 5;
-volatile int BlinkMillisTime = 300;
+volatile int BlinkMillisTime = 1000;
 
 #define SiPMmaxReadTimes 100
 volatile int SiPMcounter = 0;
@@ -81,8 +81,8 @@ void setup(){
   pinMode(TECpositivePin, OUTPUT);
   pinMode(TECnegativePin, OUTPUT);
 
-  setupPID();
-  setupSiPM();
+  //setupPID();
+  //setupSiPM();
   setupBlink();
   Serial.begin(BAUD_RATE);
 }
