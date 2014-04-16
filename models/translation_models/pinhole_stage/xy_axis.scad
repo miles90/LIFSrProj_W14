@@ -20,6 +20,10 @@ XY_AXIS_TRANS_STAGE();
 
 module tbs_mount_z_axis() {
 	difference() {
+			translate([0,0,40]) cube([20,25,25],center=true);
+			translate([static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
+	}
+	difference() {
 		union() {
 			translate([-30,-12.5,-22.5]) cube([60,20,5]);
 			translate([-30,-12.5,23.5]) cube([60,25,5]);
@@ -46,20 +50,27 @@ module vert_stage(){
 
 	//coupler and rods
 	%translate([-40,0,115]) coupler(coupler_dim, 2.5,2.5);
-	color("grey") translate([static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
+	//color("grey") translate([static_vert_rod_loc,0,80]) smooth_rod(vert_static_rod_length, static_rod_radius);
 	color("grey") translate([-40,0,70.5]) smooth_rod(vert_drive_rod_length, rod_radius);
 	translate([-40,0,85]) rotate([0,0,90]) tbs_adj();
 	union() {
-		tbs_mount_z_axis();
 		frame();
 	}
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c7596db2222c14726a05437f9521503f7daa13fe
+>>>>>>> parent of 1942770... added platform to pinhole
+=======
+>>>>>>> 1eb3a0c41c571f82b2442b3197dc284b2c51a428
 }
 
 module frame() {
 	top_pos = 120;
+	tbs_mount_z_axis();
 	union() {
 		difference() {//top frame
-			translate([0,5,top_pos]) cube([150,35,20],center=true);
+			translate([-12.5,5,top_pos]) cube([135,35,20],center=true);
 			translate([-40,0,top_pos]) cylinder(r=10,h=25,center=true,$fn=100); //motor shaft hole
 			translate([static_vert_rod_loc,0,100]) smooth_rod(220, static_rod_radius); //static shaft hole
 			//screw holes
@@ -72,7 +83,10 @@ module frame() {
 		//bottom frame
 		translate([0,10,0]) rotate([-90,0,0]) union() {
 			//-x mount
-			rotate([0,0,180]) tbs_side_support();
+			difference() {
+				rotate([0,0,180]) tbs_side_support();
+				translate([85,-50,-30]) mirror([1,0,0]) cube([30,100,30]);
+			}
 
 			//+x mount
 			difference() {
@@ -84,7 +98,7 @@ module frame() {
 		}
 
 		//Side support beams
-		translate([65,-12.5,0]) cube([15,15,top_pos+10]);
+		translate([22.5,-12.5,0]) cube([32.5,15,top_pos+10]);
 		translate([-80,-12.5,0]) cube([15,15,top_pos+10]);
 	}
 
@@ -97,8 +111,31 @@ module frame() {
 		//translate([-mount_position-2.5,0,-7.5]) cube([50,45,30],center=true);
 		translate([-70,0,-15]) cube([20,45,15],center=true);
 	}
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+=======
+	module tbs_mount_z_axis() {
+		difference() {
+			union() {
+				translate([-30,-12.5,-22.5]) cube([60,20,5]);
+				translate([-30,-12.5,23.5]) cube([60,25,5]);
+			}
+			translate([17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
+			translate([-17.5,0,0]) cylinder(h=100,r=3,center=true,$fn=50);
+		}
+		difference() {
+			translate([0,2,38.5]) cube([20,29,20],center=true);
+			translate([0,0,40]) cylinder(h=40,r=static_rod_radius,center=true,$fn=50);
+			translate([0,15,38.5]) cube([1.5,30,25],center=true);
+			translate([0,11,40]) rotate([0,90,0]) cylinder(h=40,r=2.5,center=true,$fn=50);
+		}
+	}
+=======
+>>>>>>> 1eb3a0c41c571f82b2442b3197dc284b2c51a428
 }
 
+>>>>>>> parent of 1942770... added platform to pinhole
 module pinhole() {
 	difference() {
 		cube([40,10,40],center=true);
